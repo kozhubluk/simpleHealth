@@ -53,11 +53,10 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/users/edit")
     public String userSave(
-            @RequestParam String username,
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user
     ) {
-        userService.userEdit(username, form, user);
+        userService.userEdit(form, user);
 
         return "redirect:/users";
     }

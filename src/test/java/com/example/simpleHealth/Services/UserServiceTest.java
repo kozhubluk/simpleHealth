@@ -1,6 +1,5 @@
 package com.example.simpleHealth.Services;
 
-import com.example.simpleHealth.models.Role;
 import com.example.simpleHealth.models.User;
 import com.example.simpleHealth.repositories.UserRepository;
 import com.example.simpleHealth.services.UserService;
@@ -52,7 +51,7 @@ class UserServiceTest {
         form.put("ROLE_USER", "on");
 
         // Act
-        userService.userEdit("username", form, user);
+        userService.userEdit(form, user);
 
         // Assert
         verify(userRepository, times(1)).save(user);

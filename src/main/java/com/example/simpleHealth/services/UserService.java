@@ -24,8 +24,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void userEdit(String username, Map<String, String> form, User user) {
-        if (userRepository.findByUsername(username) == null) user.setUsername(username);
+    public void userEdit(Map<String, String> form, User user) {
         Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
 
         if (user.getRoles() != null) {
