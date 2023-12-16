@@ -6,7 +6,7 @@
     <@nav.nav>
     </@nav.nav>
     <#assign specializations = ['Therapist', 'Cardiologist', 'Dermatologist', 'Gynecologist', 'Ophthalmologist',
-     'Orthopedist', 'Psychiatrist', 'Surgeon', 'Endocrinologist', 'Nephrologist', 'Gastroenterologist']>
+    'Orthopedist', 'Psychiatrist', 'Surgeon', 'Endocrinologist', 'Nephrologist', 'Gastroenterologist']>
     <#if !specialization??>
         <#assign specialization = "">
     </#if>
@@ -31,10 +31,10 @@
                         <p class="card-text">${doctor.specialization}</p>
                         <p class="card-text font-weight-light">
                             Cost of the first appointment: ${doctor.price}$</p>
-                        <div style= "display: flex; flex-wrap: wrap; column-gap: 4px; row-gap: 4px">
+                        <div style="display: flex; flex-wrap: wrap; column-gap: 4px; row-gap: 4px">
                             <#list doctor.getDates() as appointment>
                                 <a style="display: block;" href="/doctor/${doctor.id?c}"
-                                class="btn btn-primary" type="submit">${appointment}</a>
+                                   class="btn btn-primary" type="submit">${appointment}</a>
                             <#else>
                                 There are no dates available to make an appointment with a doctor
                             </#list>
@@ -51,6 +51,6 @@
 
 
 
-</script>
+    </script>
 
 </@c.page>

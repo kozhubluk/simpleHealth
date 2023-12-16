@@ -22,10 +22,15 @@ public class DoctorController {
     private final UserService userService;
     private final AppointmentService appointmentsService;
 
+    @GetMapping("/f")
+    public String f() {
+        return "error.html";
+    }
+
     @GetMapping("/")
     public String doctors(@RequestParam(name = "specialization", required = false) String specialization,
                           Principal principal, Model model) {
-        model.addAttribute("doctors", doctorService.listDoctors(specialization));
+        model.addAttribute("doctors", doctorService.readDoctors(specialization));
         model.addAttribute("user", userService.getUserByPrincipal(principal));
         model.addAttribute("specialization", specialization);
         return "index";
@@ -34,10 +39,10 @@ public class DoctorController {
 
     @GetMapping("doctor/{id}")
     public String doctorInfo(@PathVariable Long id, Principal principal, Model model) {
-        Doctor doctor = doctorService.getDoctorById(id);
+        Doctor doctor = doctorService.readDoctor(id);
         model.addAttribute("doctor", doctor);
         model.addAttribute("user", userService.getUserByPrincipal(principal));
-        model.addAttribute("appointments", appointmentsService.doctorAppointments(doctor));
+        model.addAttribute("appointments", appointmentsService.readAvailableAppointments(doctor));
         return "doctor-info";
     }
 
@@ -50,7 +55,7 @@ public class DoctorController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("doctor/create")
     public String createDoctor(Doctor product) {
-        doctorService.saveDoctor(product);
+        doctorService.createDoctor(product);
         return "redirect:/";
     }
 
@@ -65,7 +70,7 @@ public class DoctorController {
     @GetMapping("doctor/list")
     public String listDoctor(@RequestParam(name = "name", required = false) String name,
                              Model model) {
-        model.addAttribute("doctors", doctorService.listDoctors(name));
+        model.addAttribute("doctors", doctorService.readDoctors(name));
         return "doctor-list";
     }
 

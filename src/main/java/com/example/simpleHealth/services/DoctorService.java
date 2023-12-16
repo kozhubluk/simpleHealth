@@ -1,14 +1,11 @@
 package com.example.simpleHealth.services;
 
 import com.example.simpleHealth.models.Doctor;
-import com.example.simpleHealth.models.User;
-import com.example.simpleHealth.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.example.simpleHealth.repositories.DoctorRepository;
 
-import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -17,15 +14,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DoctorService {
     private final DoctorRepository doctorRepository;
-    private final UserRepository userRepository;
 
-    public Doctor getDoctorById(Long id) {
+    public Doctor readDoctor(Long id) {
         return doctorRepository.findById(id).orElse(null);
     }
 
-    public List<Doctor> listDoctors(String specialization) {
+    public List<Doctor> readDoctors(String specialization) {
         if (specialization == null || specialization.isEmpty()) return doctorRepository.findAll();
-        return doctorRepository.findAllBySpecialization(specialization);
+        return doctorRepository.findBySpecialization(specialization);
     }
 
 
@@ -33,7 +29,7 @@ public class DoctorService {
         doctorRepository.deleteById(id);
     }
 
-    public void saveDoctor(Doctor doctor){
+    public void createDoctor(Doctor doctor){
         doctorRepository.save(doctor);
         log.info("Doctor is saved. ID: {}", doctor.getId());
     }

@@ -36,7 +36,7 @@ class UserServiceTest {
         when(userRepository.findAll()).thenReturn(users);
 
         // Act
-        List<User> result = userService.list();
+        List<User> result = userService.readUsers();
 
         // Assert
         assertEquals(users, result);
@@ -51,7 +51,7 @@ class UserServiceTest {
         form.put("ROLE_USER", "on");
 
         // Act
-        userService.userEdit(form, user);
+        userService.updateUser(form, user);
 
         // Assert
         verify(userRepository, times(1)).save(user);
@@ -66,7 +66,7 @@ class UserServiceTest {
         String fullname = "John Doe";
 
         // Act
-        userService.userEdit(birthday, fullname, user);
+        userService.updateUser(birthday, fullname, user);
 
         // Assert
         verify(userRepository, times(1)).save(user);

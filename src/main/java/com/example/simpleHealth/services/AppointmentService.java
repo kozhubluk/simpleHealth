@@ -20,7 +20,7 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final DoctorRepository doctorRepository;
 
-    public void addAppointment(Doctor doctor, String date, String time) {
+    public void createAppointment(Doctor doctor, String date, String time) {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Appointment appointment = new Appointment();
         Date datetime = new Date();
@@ -43,7 +43,7 @@ public class AppointmentService {
         appointmentRepository.save(appointment);
     }
 
-    public List<Appointment> doctorAppointments(Doctor doctor) {
+    public List<Appointment> readAvailableAppointments(Doctor doctor) {
         return appointmentRepository.findByDoctorAndAvailableOrderByTime(doctor, true);
     }
 
@@ -52,7 +52,7 @@ public class AppointmentService {
     }
 
 
-    public List<Appointment> userAppointments(User user) {
+    public List<Appointment> readByUser(User user) {
         return appointmentRepository.
                 findByUserOrderByTime(user);
     }
@@ -62,11 +62,11 @@ public class AppointmentService {
         appointmentRepository.deleteById(id);
     }
 
-    public List<Appointment> listAppointments(Doctor doctor) {
+    public List<Appointment> readByDoctor(Doctor doctor) {
         return appointmentRepository.findByDoctorOrderByTime(doctor);
     }
 
-    public void addUser(Appointment appointment, User user) {
+    public void setUser(Appointment appointment, User user) {
         appointment.setUser(user);
         appointmentRepository.save(appointment);
     }

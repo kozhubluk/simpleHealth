@@ -30,8 +30,8 @@ public class AppointmentController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/appointment/list/{id}")
     public String appointmentsList(Model model, @PathVariable Long id) {
-        Doctor doctor = doctorService.getDoctorById(id);
-        List<Appointment> appointments = appointmentsService.listAppointments(doctor);
+        Doctor doctor = doctorService.readDoctor(id);
+        List<Appointment> appointments = appointmentsService.readByDoctor(doctor);
         model.addAttribute("doctor", doctor);
         model.addAttribute("appointments", appointments);
         return "doctor-appointments";
@@ -40,7 +40,7 @@ public class AppointmentController {
     @GetMapping("/appointment")
     public String showAppointments(Model model, Principal principal) {
         User user = userService.getUserByPrincipal(principal);
-        List<Appointment> appointments = appointmentsService.userAppointments(user);;
+        List<Appointment> appointments = appointmentsService.readByUser(user);;
         model.addAttribute("user", user);
         model.addAttribute("appointments", appointments);
         return "appointments";
@@ -51,7 +51,7 @@ public class AppointmentController {
     public String addNewAppointment(@RequestParam("doctorId") Doctor doctor,
                                    @RequestParam("date") String date,
                                    @RequestParam("time") String time) {
-        appointmentsService.addAppointment(doctor, date, time);
+        appointmentsService.createAppointment(doctor, date, time);
         return "redirect:/appointment/list/" + doctor.getId();
     }
 
@@ -73,7 +73,7 @@ public class AppointmentController {
     public String addAppointment(@RequestParam("appointmentId") Appointment appointment,
                                  Principal principal) {
         User user = userService.getUserByPrincipal(principal);
-        appointmentsService.addUser(appointment, user);
+        appointmentsService.setUser(appointment, user);
         return "redirect:/appointment";
     }
 }

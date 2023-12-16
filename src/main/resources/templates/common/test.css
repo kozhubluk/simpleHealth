@@ -1,0 +1,12 @@
+.card{
+    width: 16rem;
+    margin-top: 10px;
+    margin-right: 10px;
+    padding-bottom: 0px;
+}
+
+.card:hover{
+    background: rgb(204,204,215);
+    background: linear-gradient(180deg, rgba(204,204,215,1) 0%, rgba(255,255,255,1) 68%);
+    transition: .3s;
+}

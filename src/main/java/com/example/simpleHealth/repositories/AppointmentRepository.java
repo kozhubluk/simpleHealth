@@ -14,7 +14,6 @@ import java.util.List;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
-    List<Appointment> getAllByDoctor(Doctor doctor);
     List<Appointment> findByDoctorOrderByTime(Doctor doctor);
     List<Appointment> findByDoctorAndAvailableOrderByTime(Doctor doctor, Boolean available);
 
@@ -25,6 +24,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Modifying
     @Query(value = "DELETE FROM appointments WHERE time < NOW();", nativeQuery = true)
     void deleteOld();
-
 
 }

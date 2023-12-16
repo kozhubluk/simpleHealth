@@ -32,7 +32,7 @@ public class DoctorServiceTest {
 
     @BeforeEach
     public void setUp() {
-        doctorService = new DoctorService(doctorRepository, userRepository);
+        doctorService = new DoctorService(doctorRepository);
     }
 
     @Test
@@ -41,22 +41,22 @@ public class DoctorServiceTest {
         Doctor doctor = new Doctor();
         doctor.setId(id);
         when(doctorRepository.findById(id)).thenReturn(Optional.of(doctor));
-        assertEquals(doctor, doctorService.getDoctorById(id));
+        assertEquals(doctor, doctorService.readDoctor(id));
     }
 
     @Test
     public void testListDoctorsWithSpecialization() {
         String specialization = "Cardiologist";
         List<Doctor> doctors = new ArrayList<>();
-        when(doctorRepository.findAllBySpecialization(specialization)).thenReturn(doctors);
-        assertEquals(doctors, doctorService.listDoctors(specialization));
+        when(doctorRepository.findBySpecialization(specialization)).thenReturn(doctors);
+        assertEquals(doctors, doctorService.readDoctors(specialization));
     }
 
     @Test
     public void testListDoctorsWithoutSpecialization() {
         List<Doctor> doctors = new ArrayList<>();
         when(doctorRepository.findAll()).thenReturn(doctors);
-        assertEquals(doctors, doctorService.listDoctors(null));
+        assertEquals(doctors, doctorService.readDoctors(null));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class DoctorServiceTest {
     @Test
     public void testSaveDoctor() {
         Doctor doctor = new Doctor();
-        doctorService.saveDoctor(doctor);
+        doctorService.createDoctor(doctor);
         Mockito.verify(doctorRepository, Mockito.times(1)).save(doctor);
     }
 

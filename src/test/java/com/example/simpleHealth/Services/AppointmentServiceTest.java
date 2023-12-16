@@ -14,11 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -58,7 +54,7 @@ public class AppointmentServiceTest {
         Doctor doctor = new Doctor();
         List<Appointment> expectedAppointments = new ArrayList<>();
         Mockito.when(appointmentRepository.findByDoctorAndAvailableOrderByTime(doctor, true)).thenReturn(expectedAppointments);
-        List<Appointment> result = appointmentService.doctorAppointments(doctor);
+        List<Appointment> result = appointmentService.readAvailableAppointments(doctor);
         assertEquals(expectedAppointments, result);
     }
 
@@ -73,7 +69,7 @@ public class AppointmentServiceTest {
         User user = new User();
         List<Appointment> expectedAppointments = new ArrayList<>();
         Mockito.when(appointmentRepository.findByUserOrderByTime(user)).thenReturn(expectedAppointments);
-        List<Appointment> result = appointmentService.userAppointments(user);
+        List<Appointment> result = appointmentService.readByUser(user);
         assertEquals(expectedAppointments, result);
     }
 
@@ -89,7 +85,7 @@ public class AppointmentServiceTest {
         Doctor doctor = new Doctor();
         List<Appointment> expectedAppointments = new ArrayList<>();
         Mockito.when(appointmentRepository.findByDoctorOrderByTime(doctor)).thenReturn(expectedAppointments);
-        List<Appointment> result = appointmentService.listAppointments(doctor);
+        List<Appointment> result = appointmentService.readByDoctor(doctor);
         assertEquals(expectedAppointments, result);
     }
 
@@ -97,7 +93,7 @@ public class AppointmentServiceTest {
     public void testAddUser() {
         Appointment appointment = new Appointment();
         User user = new User();
-        appointmentService.addUser(appointment, user);
+        appointmentService.setUser(appointment, user);
         Mockito.verify(appointmentRepository, times(1)).save(appointment);
     }
 }

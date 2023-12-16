@@ -6,7 +6,7 @@
             background-color: RGB(248, 249, 250);
         }
     </style>
-    <form action="/admin/users/edit" method="post"
+    <form action="/users/edit" method="post"
           style="max-width: 400px; padding: 12px; margin: auto; margin-top: 20px; border-radius: 12px;
              padding-top: 20px; background-color: white" ;>
         <!-- Email input -->

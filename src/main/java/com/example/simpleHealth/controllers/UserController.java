@@ -38,7 +38,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/users")
     public String userList(Model model) {
-        model.addAttribute("users", userService.list());
+        model.addAttribute("users", userService.readUsers());
         return "user-list";
     }
 
@@ -56,7 +56,7 @@ public class UserController {
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user
     ) {
-        userService.userEdit(form, user);
+        userService.updateUser(form, user);
 
         return "redirect:/users";
     }
@@ -66,7 +66,7 @@ public class UserController {
                            @RequestParam("fullname") String fullname,
                            @RequestParam("userId") User user
     ) {
-        userService.userEdit(birthday, fullname, user);
+        userService.updateUser(birthday, fullname, user);
         return "redirect:/";
     }
 

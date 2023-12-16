@@ -3,6 +3,7 @@ package com.example.simpleHealth.controllers;
 import com.example.simpleHealth.models.Role;
 import com.example.simpleHealth.models.User;
 import com.example.simpleHealth.repositories.UserRepository;
+import com.example.simpleHealth.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ import java.util.*;
 @Controller
 public class RegistrationController {
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     @GetMapping("/registration")
     public String registration(){
         return "registration";
@@ -25,30 +26,11 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(User user, String date, Model model) {
-        System.out.println(date);
-        User userFromDb = userRepository.findByUsername(user.getUsername());
-        if (userFromDb != null) {
+        if (userService.createUser(user, date) == null) {
             model.addAttribute("message", "User exist!");
             return "/registration";
         }
-        String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        user.setActive(true);
-        if (Objects.equals(user.getUsername(), "Adminka"))
-            user.setRoles(new HashSet<>(Arrays.asList(Role.USER, Role.ADMIN)));
-        else user.setRoles(Collections.singleton(Role.USER));
-
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date b = formatter.parse(date);
-            user.setBirthday(b);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        userRepository.save(user);
         return "redirect:/login";
     }
-
 
 }

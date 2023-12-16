@@ -3,6 +3,7 @@ package com.example.simpleHealth.services;
 import com.example.simpleHealth.models.Role;
 import com.example.simpleHealth.models.User;
 import com.example.simpleHealth.repositories.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -20,11 +21,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> list() {
+    public List<User> readUsers() {
         return userRepository.findAll();
     }
 
-    public void userEdit(Map<String, String> form, User user) {
+    public void updateUser(Map<String, String> form, User user) {
         Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
 
         if (user.getRoles() != null) {
@@ -40,7 +41,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void userEdit(String birthday, String fullname, User user) {
+    public void updateUser(String birthday, String fullname, User user) {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date b = formatter.parse(birthday);
@@ -55,5 +56,33 @@ public class UserService {
     public User getUserByPrincipal(Principal principal) {
         if (principal == null) return new User();
         return userRepository.findByUsername(principal.getName());
+    }
+
+    public User readUser(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public User createUser(User user, String date) {
+        User userFromDb = userRepository.findByUsername(user.getUsername());
+        if (userFromDb != null) {
+            return null;
+        }
+        String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        user.setActive(true);
+        if (Objects.equals(user.getUsername(), "Adminka"))
+            user.setRoles(new HashSet<>(Arrays.asList(Role.USER, Role.ADMIN)));
+        else user.setRoles(Collections.singleton(Role.USER));
+
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date b = formatter.parse(date);
+            user.setBirthday(b);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        userRepository.save(user);
+        return user;
     }
 }

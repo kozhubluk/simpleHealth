@@ -11,8 +11,7 @@
                 <div class="list" style="display: flex; flex-wrap: wrap; justify-content: center; width: fit-content">
 
                     <#list appointments as appointment>
-                        <div class="card"
-                            style="width: 16rem;  margin-top: 10px; margin-right: 10px; padding-bottom: 0px;">
+                        <div class="card">
 
                             <div class="card-body">
 
@@ -55,7 +54,7 @@
                                 <input type="hidden" id='appointmentid' name="appointmentId" value="">
 
                                 <button type="submit" class="btn btn-primary">Make an Appointment</button>
-                            </form style="margin-bottom=0px">
+                            </form>
                             </form>
                         </div>
                     </div>
@@ -93,18 +92,18 @@
 
 
 
-                var exampleModal = document.getElementById('exampleModalCenter')
-                var buttons = document.querySelectorAll('.modal-button')
+                const exampleModal = document.getElementById('exampleModalCenter')
+                const buttons = document.querySelectorAll('.modal-button')
 
 
                 buttons.forEach(button => {
                     button.addEventListener('click', function (event) {
-                        var recipient = button.getAttribute('data-id')
-                        var time = button.getAttribute('data-time')
+                        const recipient = button.getAttribute('data-id')
+                        const time = button.getAttribute('data-time')
 
-                        var modalTitle = exampleModal.querySelector('.modal-title')
-                        var modalBodyInput = exampleModal.querySelector('#appointmentid')
-                        var timeText = document.querySelector('#timeText')
+                        const modalTitle = exampleModal.querySelector('.modal-title')
+                        const modalBodyInput = exampleModal.querySelector('#appointmentid')
+                        const timeText = document.querySelector('#timeText')
 
                         modalTitle.textContent = 'New Appointment'
                         modalBodyInput.value = recipient
